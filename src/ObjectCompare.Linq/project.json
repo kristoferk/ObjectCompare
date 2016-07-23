@@ -1,0 +1,28 @@
+﻿{
+  "version": "1.0.0-*",
+  "title": "ObjectCompare",
+  "description": "Shows the differences between the two objects.",
+  "authors": [ "kristoferk" ],
+  "packOptions": {
+    "tags": [ ".NET", "C#", "Compare", "Comparison", "CompareObjects", "Difference" ],
+    "projectUrl": "https://github.com/kristoferk/ObjectCompare/",
+    "licenseUrl": "https://github.com/kristoferk/ObjectCompare/wiki/Licensing",
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/kristoferk/ObjectCompare"
+    }
+  },
+  "dependencies": {
+  },
+  "frameworks": {
+    "net451": {
+      "frameworkAssemblies": {
+      }
+    },
+    "netstandard1.5": {
+      "dependencies": {
+        "NETStandard.Library": "1.6.0"
+      }
+    }
+  }
+}
