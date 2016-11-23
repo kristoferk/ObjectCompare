@@ -4,7 +4,7 @@ Shows the differences between the two objects.
 
 ## Installation
 To install, run the following command in the Package Manager Console:
-````csharp
+````shell
 
 PM> Install-Package ObjectCompare.Linq
 
