@@ -64,10 +64,11 @@ namespace ObjectCompare.Linq.Comparing
 
             var dictionary1 = list1.ToDictionary(equality);
             var ids1 = dictionary1.Select(s => s.Key);
-            var dictionary2 = list2.ToDictionary(equality);
-            var ids2 = dictionary2.Select(s => s.Key);
 
-            var newRows = dictionary2.Where(id => !ids1.Contains(id.Key)).ToList();
+            var multiKeyDictionary = ToKeyValuePairs<T, T2>(equality, list2);
+
+            var ids2 = multiKeyDictionary.Select(s => s.Key).Distinct();
+            var newRows = multiKeyDictionary.Where(id => !ids1.Contains(id.Key)).ToList();
             var removedRows = dictionary1.Where(id => !ids2.Contains(id.Key)).ToList();
 
             if (newRows.Any())
@@ -92,12 +93,12 @@ namespace ObjectCompare.Linq.Comparing
                 });
             }
 
-            IOrderedEnumerable<KeyValuePair<object, T2>> equalRows = dictionary2.Where(x => dictionary1.ContainsKey(x.Key)).OrderBy(s => s.Key);
+            IOrderedEnumerable<KeyValuePair<object, T2>> equalRows = multiKeyDictionary.Where(x => dictionary1.ContainsKey(x.Key)).OrderBy(s => s.Key);
 
             foreach (KeyValuePair<object, T2> key in equalRows)
             {
                 T2 innerObj1 = dictionary1[key.Key];
-                T2 innerObj2 = dictionary2[key.Key];
+                T2 innerObj2 = key.Value;
 
                 var config2 = new CompareConfig<T2>(innerObj1, innerObj2, navigationPropertyName);
                 config(config2);
@@ -105,6 +106,17 @@ namespace ObjectCompare.Linq.Comparing
             }
 
             return differences;
+        }
+
+        private static List<KeyValuePair<object, T2>> ToKeyValuePairs<T, T2>(Func<T2, object> equality, List<T2> list2)
+        {
+            List<KeyValuePair<object, T2>> multiKeyDictionary = new List<KeyValuePair<object, T2>>();
+            foreach (var person in list2)
+            {
+                multiKeyDictionary.Add(new KeyValuePair<object, T2>(equality(person), person));
+            }
+
+            return multiKeyDictionary;
         }
 
         private static void CompareField<T>(List<Difference> differences, Expression<Func<T, object>> fieldToCompare, T obj1, T obj2, string parentPath)

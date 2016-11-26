@@ -1,5 +1,4 @@
-﻿using ObjectCompare;
-using ObjectCompare.Linq;
+﻿using ObjectCompare.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -195,6 +194,63 @@ namespace UnitTests
                 "Rows.Product.Meta: 1 object removed.",
                 "Rows: 1 object added.",
                 "Rows: 1 object removed."
+            };
+
+            string expectedDiff = string.Join("\n", expected.OrderBy(s => s));
+            Assert.Equal(expectedDiff, diff);
+        }
+
+        [Fact]
+        public void TestAddMultipleRows()
+        {
+            var comparer = new ObjectComparer<Order>();
+            var obj1 = DataCreator.CreateOrder();
+            var track = comparer.Track(obj1);
+
+            obj1.Rows.Add(new OrderRow {
+                Id = 0,
+                Product = new Product {
+                    Id = "1",
+                    Name = "Product A"
+                }
+            });
+
+            obj1.Rows.Add(new OrderRow {
+                Id = 0,
+                Product = new Product {
+                    Id = "1",
+                    Name = "Product B"
+                }
+            });
+
+            comparer.Config(p => {
+                p.Fields(
+                    f => f.OrderType,
+                    f => f.Created,
+                    f => f.OrderHeader.OrderInfo.Invoice
+                    );
+                p.List(
+                    l => l.Rows,
+                    l => l.Id,
+                    p2 => {
+                        p2.Field(f => f.Quantity);
+                        p2.List(
+                            f => f.Product.Meta,
+                            m => m.Id,
+                            metaConfig => metaConfig.Field(mf => mf.Id)
+                            );
+                        p2.List(
+                            f => f.Product.Tags,
+                            m => m,
+                            metaConfig => metaConfig.Field(mf => mf));
+                    }
+                    );
+            });
+
+            var diff = FormatResult(track.GetDiff());
+
+            List<string> expected = new List<string> {
+                "Rows: 2 objects added."
             };
 
             string expectedDiff = string.Join("\n", expected.OrderBy(s => s));

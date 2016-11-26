@@ -1,5 +1,4 @@
-﻿using ObjectCompare;
-using ObjectCompare.Linq;
+﻿using ObjectCompare.Linq;
 using System;
 using System.Linq;
 using UnitTests.Data;
