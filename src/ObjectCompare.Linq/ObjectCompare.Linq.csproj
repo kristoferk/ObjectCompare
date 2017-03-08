@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Shows the differences between the two objects.</Description>
+    <AssemblyTitle>ObjectCompare.Linq</AssemblyTitle>
+    <VersionPrefix>1.0.2</VersionPrefix>
+    <Authors>kristoferk</Authors>
+    <TargetFrameworks>net451;netstandard1.5</TargetFrameworks>
+    <AssemblyName>ObjectCompare.Linq</AssemblyName>
+    <PackageId>ObjectCompare.Linq</PackageId>
+    <PackageTags>.NET;C#;Compare;Comparison;CompareObjects;Difference;ObjectComparer;ObjectDiff;Diff</PackageTags>
+    <PackageProjectUrl>https://github.com/kristoferk/ObjectCompare/</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/kristoferk/ObjectCompare/wiki/Licensing</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>git://github.com/kristoferk/ObjectCompare</RepositoryUrl>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.5' ">1.6.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+</Project>
